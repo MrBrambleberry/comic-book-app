@@ -1,10 +1,10 @@
 import React from "react";
 
 function CharacterThumbnail(props) {
-  const { url } = props;
+  const { url, altText = 'altText' } = props;
   return (
     <div>
-      <img src={url} alt="altText" />
+      <img src={url} alt={altText} />
     </div>
   );
 }
