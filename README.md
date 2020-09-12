@@ -1,15 +1,16 @@
 
 # Marvel API demo
 
-The purpose of this applicationis to render content from the [Marvel API](https://developer.marvel.com/) using React components
+The purpose of this application is to render content from the [Marvel API](https://developer.marvel.com/) using React components
 
 ## How do I run the application?
 
 Follow these steps:
 
-1) [Sign up to a Marvel Developer account](https://www.marvel.com/signin?referer=https%3A%2F%2Fdeveloper.marvel.com%2F) to get your API keys (don't forget to whitelist the domain `localhost` too)
-2) Create a file called `.env.local` in the project root
-3) Within this file add your public and private key in the following format:
+1) [Sign up to a Marvel Developer account](https://www.marvel.com/signin?referer=https%3A%2F%2Fdeveloper.marvel.com%2F) to get your API keys 
+2) While still on the developer portal whitelist the domain `localhost` so it can be run locally
+3) Create a file called `.env.local` in the project root
+4) Within this file add your public and private key in the following format:
 ```
 REACT_APP_MARVEL_PUBLIC_KEY='your public key'
 REACT_APP_MARVEL_PRIVATE_KEY='your private key'
