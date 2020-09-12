@@ -1,20 +1,34 @@
-import React from "react";
-import source from '../resources/characters.json'
+import React, { useState, useEffect } from "react";
 import { CharacterThumbnail } from '../components/CharacterThumbnail'
 import './characterList.css'
+import axios from 'axios'
+import CryptoJS from 'crypto-js'
 
 function CharacterList() {
 
-    const links = source.characters.map(entity => entity.thumbnail.path + '/portrait_uncanny' + '.' + entity.thumbnail.extension);
-    const images = links.map(url => <CharacterThumbnail url={url} />);
+    const [characters, setCharacters] = useState([]);
+
+    useEffect(() => {
+        const timestamp = Date.now();
+        const payload = timestamp + process.env.REACT_APP_MARVEL_PRIVATE_KEY + process.env.REACT_APP_MARVEL_PUBLIC_KEY;
+        const hash = CryptoJS.MD5(payload).toString();
+
+        const fetchCharacters = async () => {
+            const res = await axios.get(`https://gateway.marvel.com:443/v1/public/characters?ts=${timestamp}&limit=99&apikey=${process.env.REACT_APP_MARVEL_PUBLIC_KEY}&hash=${hash}`);
+            const { data } = res.data;
+            setCharacters(data.results)
+        }
+
+        fetchCharacters();
+    }, [])
+
+    const links = characters.map(entity => entity.thumbnail.path + '/portrait_uncanny.' + entity.thumbnail.extension);
+    const images = links.map((url, index) => <div key={index}><CharacterThumbnail url={url} /></div>) || <></>;
 
     return (
-        <>
-            <h4>Click their portait to learn more about your heros</h4>
-            <div className="heros">
-                {images}
-            </div>
-        </>
+        <div className="heros">
+            {images}
+        </div>
     )
 }
 
