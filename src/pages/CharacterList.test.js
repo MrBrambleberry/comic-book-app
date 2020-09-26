@@ -5,35 +5,53 @@ import { CharacterList } from './CharacterList'
 
 jest.mock('axios');
 
+const renderPage = async () => await render(<CharacterList />);
+
+const mockFetchCharacters = results => {
+    axios.get.mockImplementation(() => Promise.resolve({
+        data:
+        {
+            data: {
+                results: results
+            }
+        }
+    }));
+}
+
 describe('CharacterList', () => {
-    const renderPage = async () => await render(<CharacterList />);
+    const frylock = {
+        name: 'Frylock',
+        thumbnail: {
+            path: 'http://www.someremoteresource.com/images/abc',
+            extension: 'jpg'
+        }
+    };
 
-    const mockFetchCharacters = results => {
-        axios.get.mockImplementation(() => Promise.resolve({
-            data:
-            {
-                data: {
-                    results: results
-                }
-            }
-        }));
-    }
+    const masterShake = {
+        name: 'MasterShake',
+        thumbnail: {
+            path: 'http://www.anotherrmoteresource.com/images/xyz',
+            extension: 'png'
+        }
+    };
 
-    it('renders a single image from the remote API call', async () => {
-        mockFetchCharacters([
-            {
-                name: 'Frylock',
-                thumbnail: {
-                    path: 'http://www.someremoteresource.com/images/abc',
-                    extension: 'jpg'
-                }
-            }
-        ]);
+    const meatwad = {
+        name: 'Meatwad',
+        thumbnail: {
+            path: 'http://www.someremoteresource.com/images/123',
+            extension: 'png'
+        }
+    };
+
+    it('Renders every image from a collection', async () => {
+        mockFetchCharacters([frylock, masterShake, meatwad]);
 
         await act(async () => {
             await renderPage();
         });
 
-        expect(screen.getByAltText('Frylock')).toHaveAttribute('src', 'http://www.someremoteresource.com/images/abc/portrait_uncanny.jpg');
+        expect(screen.getByAltText(frylock.name)).toHaveAttribute('src', 'http://www.someremoteresource.com/images/abc/portrait_uncanny.jpg');
+        expect(screen.getByAltText(masterShake.name)).toHaveAttribute('src', 'http://www.anotherrmoteresource.com/images/xyz/portrait_uncanny.png');
+        expect(screen.getByAltText(meatwad.name)).toHaveAttribute('src', 'http://www.someremoteresource.com/images/123/portrait_uncanny.png');
     })
 })
