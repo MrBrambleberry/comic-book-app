@@ -16,6 +16,7 @@ describe('CharacterList', () => {
                 data: {
                     results: [
                         {
+                            name: 'Frylock',
                             thumbnail: {
                                 path: 'http://www.someremoteresource.com/images/abc',
                                 extension: 'jpg'
@@ -26,7 +27,7 @@ describe('CharacterList', () => {
         }));
 
         await renderPage();
-        expect(screen.getByAltText('altText')).toHaveAttribute('src', 'http://www.someremoteresource.com/images/abc/portrait_uncanny.jpg');
+        expect(screen.getByAltText('Frylock')).toHaveAttribute('src', 'http://www.someremoteresource.com/images/abc/portrait_uncanny.jpg');
 
     })
 })

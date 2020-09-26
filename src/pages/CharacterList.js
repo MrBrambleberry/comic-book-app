@@ -22,8 +22,11 @@ function CharacterList() {
         fetchCharacters();
     }, [])
 
-    const links = characters.map(entity => entity.thumbnail.path + '/portrait_uncanny.' + entity.thumbnail.extension);
-    const images = links.map((url, index) => <div key={index}><CharacterThumbnail url={url} /></div>) || <></>;
+    const images = characters.map((entity, index) =>
+        <div key={index}>
+            <CharacterThumbnail altText={entity.name} url={entity.thumbnail.path + '/portrait_uncanny.' + entity.thumbnail.extension} />
+        </div>
+    );
 
     return (
         <div className="heros">
