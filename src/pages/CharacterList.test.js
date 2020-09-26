@@ -53,5 +53,23 @@ describe('CharacterList', () => {
         expect(screen.getByAltText(frylock.name)).toHaveAttribute('src', 'http://www.someremoteresource.com/images/abc/portrait_uncanny.jpg');
         expect(screen.getByAltText(masterShake.name)).toHaveAttribute('src', 'http://www.anotherrmoteresource.com/images/xyz/portrait_uncanny.png');
         expect(screen.getByAltText(meatwad.name)).toHaveAttribute('src', 'http://www.someremoteresource.com/images/123/portrait_uncanny.png');
+    });
+
+    const captain = {
+        name: 'Captain no face',
+        thumbnail: {
+            path: 'http://www.someremoteresource.com/images/image_not_available/portrait_uncanny',
+            extension: 'jpg'
+        }
+    };
+
+    it('Does not render characters for whom the requested image type is unsupported/missing', async () => {
+        mockFetchCharacters([captain]);
+
+        await act(async () => {
+            await renderPage();
+        });
+
+        expect(screen.queryByAltText(captain.name)).not.toBeInTheDocument()
     })
 })

@@ -22,11 +22,14 @@ function CharacterList() {
         fetchCharacters();
     }, [])
 
-    const images = characters.map((entity, index) =>
-        <div key={index}>
-            <CharacterThumbnail altText={entity.name} url={entity.thumbnail.path + '/portrait_uncanny.' + entity.thumbnail.extension} />
-        </div>
-    );
+    const images = characters.map((entity, index) => {
+        const url = entity.thumbnail.path + '/portrait_uncanny.' + entity.thumbnail.extension;
+
+        if (!url.includes('image_not_available')) {
+            return <div key={index}><CharacterThumbnail altText={entity.name} url={url} /></div>
+        }
+    });
+
 
     return (
         <div className="heros">
